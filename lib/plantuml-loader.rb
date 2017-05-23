@@ -52,34 +52,34 @@ class RemoteLoader
         conf = Jekyll.configuration({});
         initConf = conf['plantuml'] || {};
         pconf = PlantUmlConfig::DEFAULT.merge(initConf);
-        dirname = conf['source'] + File::SEPARATOR + pconf[:assets].gsub(/\//, File::SEPARATOR).sub(/\/*$/, '').sub(/^\/*/, '');
+        dirname = conf['source'] + File::SEPARATOR + pconf['assets'].gsub(/\//, File::SEPARATOR).sub(/\/*$/, '').sub(/^\/*/, '');
         Jekyll.logger.info "Directory for storage remote data : %s" % [dirname],
         unless File.directory?(dirname) then
             Jekyll.logger.info "Create directory %s because this seems to be missing" % [dirname]
             FileUtils.mkdir_p(dirname)
         end
-        @prefixUrl = pconf[:assets];
+        @prefixUrl = pconf['assets'];
         @dirname = dirname;
     end
 
     # Internal : get the url from a config
     #
-    # @param a hash with {:url, :code, :type } inside it
+    # @param a hash with {'url', 'code', 'type' } inside it
     # Returns the url for remote to retrieve
     def createRemoteUri(params)
-        uri = params[:url];
-        uri = uri.gsub(/\{code\}/, params[:code])
-        uri = uri.gsub(/\{type\}/,  params[:type])
+        uri = params['url'];
+        uri = uri.gsub(/\{code\}/, params['code'])
+        uri = uri.gsub(/\{type\}/,  params['type'])
         return uri;
     end
 
     # Internal : get the data for the remote connection
     #
-    # @param a hash with {:url, :code, :type } inside it
+    # @param a hash with {'url', 'code', 'type' } inside it
     # Returns the data as a hash
     def getData(params)
         ruri = createRemoteUri(params);
-        fn = Digest::SHA256.hexdigest(ruri) + "." + params[:type]
+        fn = Digest::SHA256.hexdigest(ruri) + "." + params['type']
         return { :remoteUri => ruri, :uri  => @prefixUrl + fn, :path => @dirname + File::SEPARATOR + fn }
     end
 

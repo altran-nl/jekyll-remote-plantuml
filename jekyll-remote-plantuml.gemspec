@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
     s.license     = 'MIT'
     s.require_path = "lib"
 
-    s.add_runtime_dependency('jekyll', '~> 2.5')
+    s.add_runtime_dependency('jekyll', '> 3')
 
     s.add_development_dependency('rake', ["~> 0"])
     s.add_development_dependency('minitest', ["~> 5.4"])
